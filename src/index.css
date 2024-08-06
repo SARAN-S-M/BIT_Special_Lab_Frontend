@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slick-prev,
+.slick-next {
+  color: red; /* Change this to your desired arrow color */
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  color: blue; /* Change this to your desired hover color */
+}
