@@ -47,7 +47,8 @@
  function ProtectedRoute() {
      const result =  localStorage.getItem("authToken") !== null;
  
-     return (result ? <Outlet /> : <Navigate to="/login" />);
+    //  return (result ? <Outlet /> : <Navigate to="/login" />);
+     return (result ? <Outlet /> : <Navigate to="/" />);
  };
  
  function Logout() {
