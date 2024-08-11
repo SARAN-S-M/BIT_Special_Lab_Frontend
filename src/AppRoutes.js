@@ -52,7 +52,8 @@
  
  function Logout() {
      localStorage.removeItem("authToken");
-     return <Navigate to="/login" />;
+    //  return <Navigate to="/login" />;
+     return <Navigate to="/" />;
  }
  
  export { AppRoutes, ProtectedRoutes };
