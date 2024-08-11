@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // const BASE_URL = process.env.REACT_APP_ENV === 'prod' ? "https://igress.vercel.app/api/" : "http://127.0.0.1:5000/api/";
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const instance = axios.create({
   baseURL: BASE_URL,
