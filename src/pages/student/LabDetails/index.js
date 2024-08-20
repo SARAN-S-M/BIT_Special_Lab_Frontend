@@ -105,9 +105,9 @@ function LabDetails() {
                 <div className='text-3xl font-bold dark:text-gray-300'>{specialLabDetails.name}</div>
                 <div className='text-lg mt-4 dark:text-gray-300'>{specialLabDetails.description}</div>
                 <div className='text-lg mt-4 text-white'>
-                    <span className='font-bold'>Faculties: </span>
+                    <span className='font-bold text-black dark:text-gray-300 '>Faculties: </span>
                     {specialLabDetails.faculties.map((faculty, index) => (
-                        <span key={index} className='text-white'>{index > 0 ? ', ' : ''}{faculty}</span>
+                        <span key={index} className='text-black dark:text-gray-300'>{index > 0 ? ', ' : ''}{faculty}</span>
                     ))}
                 </div>
 

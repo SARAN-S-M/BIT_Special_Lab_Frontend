@@ -3,7 +3,8 @@
 
  import Login from "./pages/login";
  import NotFoundPage from "./pages/404";
- import Student from "./pages/student"
+ import Student from "./pages/student";
+ import Staff from "./pages/staff";
  
  // Add the route here if there is no need for user's identity
  function AppRoutes() {
@@ -36,6 +37,7 @@
                   <Route path="questions/:testId" element={<Questions />} /> */}
 
                     <Route path="student/*" element={<Student />} />
+                    <Route path="teacher/*" element={<Staff />} />
  
                   <Route path="logout" element={<Logout />} />
                   <Route path="*" element={<NotFoundPage />} />

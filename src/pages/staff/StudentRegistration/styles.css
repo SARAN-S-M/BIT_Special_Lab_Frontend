@@ -1,0 +1,26 @@
+input[type="date"], input[type="time"] {
+    color-scheme: light dark;
+}
+
+/* Light mode specific styles for calendar and time inputs */
+input[type="date"]:not(.dark-mode), input[type="time"]:not(.dark-mode) {
+    color: black;
+    background-color: #f3f4f6;
+}
+
+/* Override for light mode to ensure icons are visible */
+input[type="date"]::-webkit-calendar-picker-indicator, 
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+}
+
+input[type="date"]:not(.dark-mode)::before,
+input[type="time"]:not(.dark-mode)::before {
+    color: black;
+}
+
+/* Dark mode styling */
+input[type="date"].dark-mode, input[type="time"].dark-mode {
+    color: white;
+    background-color: #1f2937;
+}
