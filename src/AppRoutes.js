@@ -47,7 +47,9 @@
  }
  
  function ProtectedRoute() {
-     const result =  localStorage.getItem("authToken") !== null;
+    //  const result =  localStorage.getItem("authToken") !== null;
+
+     const result = "testing";
  
     //  return (result ? <Outlet /> : <Navigate to="/login" />);
      return (result ? <Outlet /> : <Navigate to="/" />);
