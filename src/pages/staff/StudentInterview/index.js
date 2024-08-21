@@ -40,7 +40,7 @@ function StudentInterview() {
                                 expandedIndex === index ? 'max-h-40' : 'max-h-0'
                             }`}
                         >
-                            <div className="mt-2 flex justify-evenly">
+                            <div className="mt-2 flex flex-col sm:flex-row sm:justify-evenly gap-2">
                                 <button className="bg-green-500 text-white px-10 py-2 rounded-md hover:bg-green-600">
                                     Approved
                                 </button>

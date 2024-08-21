@@ -41,18 +41,18 @@ function StudentRegistration() {
                             }`}
                         >
                             <div className="mt-2 space-y-4">
-                                <div className="flex flex-col space-y-2">
+                                <div className="flex flex-col space-y-2 w-full">
                                     <label className="text-gray-700 dark:text-gray-300">Select Date:</label>
                                     <input 
                                         type="date" 
-                                        className="p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
+                                        className="p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white w-full"
                                     />
                                 </div>
-                                <div className="flex flex-col space-y-2">
+                                <div className="flex flex-col space-y-2 w-full">
                                     <label className="text-gray-700 dark:text-gray-300">Select Time:</label>
                                     <input 
                                         type="time" 
-                                        className="p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
+                                        className="p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white w-full"
                                     />
                                 </div>
                             </div>
