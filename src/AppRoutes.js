@@ -5,6 +5,7 @@
  import NotFoundPage from "./pages/404";
  import Student from "./pages/student";
  import Staff from "./pages/staff";
+ import Admin from "./pages/admin/admin";
  
  // Add the route here if there is no need for user's identity
  function AppRoutes() {
@@ -38,6 +39,8 @@
 
                     <Route path="student/*" element={<Student />} />
                     <Route path="teacher/*" element={<Staff />} />
+                    <Route path="Admin/*" element={<Admin />} />
+
  
                   <Route path="logout" element={<Logout />} />
                   <Route path="*" element={<NotFoundPage />} />
