@@ -61,5 +61,5 @@
      return <Navigate to="/" />;
  }
  
- export { AppRoutes, ProtectedRoutes };
+ export { AppRoutes, ProtectedRoutes, Logout };
  
