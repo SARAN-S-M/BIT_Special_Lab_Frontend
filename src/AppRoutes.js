@@ -6,6 +6,7 @@
  import Student from "./pages/student";
  import Staff from "./pages/staff";
  import Admin from "./pages/admin/admin";
+ import Mentor from "./pages/mentor/mentor";
  
  // Add the route here if there is no need for user's identity
  function AppRoutes() {
@@ -40,6 +41,7 @@
                     <Route path="student/*" element={<Student />} />
                     <Route path="teacher/*" element={<Staff />} />
                     <Route path="Admin/*" element={<Admin />} />
+                    <Route path="mentor/*" element={<Mentor />} />
 
  
                   <Route path="logout" element={<Logout />} />
