@@ -24,6 +24,7 @@ function Supervisor() {
             <Route path="SpecialSlot" element={<SpecialSlot />} />
             <Route path="Help" element={<Help />} />
             <Route path="DashBoard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
 
             {/* <Route path="dashboard" element={<SupervisorDashboard />} /> */}
             {/* <Route path= "StudentDetailsPage/:id" element ={<StudentDetailsPage/>}/> */}
