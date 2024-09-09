@@ -10,6 +10,7 @@ function Admin() {
     const [blockEmail, setBlockEmail] = useState('');
     const [unblockEmail, setUnblockEmail] = useState('');
     const [fileName, setFileName] = useState('');
+    const [specialLab, setSpecialLab] = useState(''); // New state for special lab
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -33,6 +34,10 @@ function Admin() {
 
     const handleUnblock = () => {
         console.log('Unblock Email:', unblockEmail);
+    };
+
+    const handleSpecialLabSubmit = () => {
+        console.log('Special Lab Name:', specialLab);
     };
 
     return (
@@ -154,6 +159,26 @@ function Admin() {
                                 Unblock
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                {/* Special Lab Section */}
+                <div className="mt-6 bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-600 rounded-md shadow-md">
+                    <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Special Lab</h2>
+                    <input
+                        type="text"
+                        value={specialLab}
+                        onChange={(e) => setSpecialLab(e.target.value)}
+                        className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0"
+                        placeholder="Enter Special Lab Name"
+                    />
+                    <div className="flex justify-end mt-4">
+                        <button
+                            onClick={handleSpecialLabSubmit}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
+                        >
+                            Submit
+                        </button>
                     </div>
                 </div>
             </div>
