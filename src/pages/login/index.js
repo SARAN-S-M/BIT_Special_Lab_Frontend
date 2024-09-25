@@ -23,7 +23,7 @@ function Login() {
 
         const tokenRes = await Request(
           'POST',
-          '/login',
+          '/user/login',
           { name, email },
           null
         );

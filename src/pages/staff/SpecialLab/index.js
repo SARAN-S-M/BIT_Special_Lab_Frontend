@@ -5,7 +5,7 @@ function SpecialLab() {
     const [sidebarToggle, setSidebarToggle] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({
-        name: "Data Science Expert Systems | SLB070 | Sangavi N",
+        name: "Data Science Expert Systems | SLB070",
         description: "Sample Description",
         faculty1: "Sangavi N",
         faculty2: "",
@@ -70,23 +70,23 @@ function SpecialLab() {
                         </div>
                     </div>
 
-                    <div className="mb-6">
+                    {/* <div className="mb-6">
                         <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Student Achievements</h2>
                         <ul className="list-disc pl-5 text-gray-700 dark:text-gray-300">
                             <li>{formData.achievements1}</li>
                             <li>{formData.achievements2}</li>
                             <li>{formData.achievements3}</li>
                         </ul>
-                    </div>
+                    </div> */}
 
                     <div className="mb-6">
                         <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Slot Booking</h2>
                         <div className="text-gray-700 dark:text-gray-300">
-                            <p>Total Students: {formData.totalStudents}</p>
+                            {/* <p>Total Students: {formData.totalStudents}</p> */}
                             <ul className="list-disc pl-5">
-                                <li>Slot 1: {formData.slot1}</li>
-                                <li>Slot 2: {formData.slot2}</li>
-                                <li>Slot 3: {formData.slot3}</li>
+                                <li>Slot: {formData.slot1}</li>
+                                {/* <li>Slot 2: {formData.slot2}</li>
+                                <li>Slot 3: {formData.slot3}</li> */}
                             </ul>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ function SpecialLab() {
                     <div className="bg-white dark:bg-gray-800 w-11/12 md:w-2/3 h-4/5 p-6 rounded-lg shadow-lg relative">
                         <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Edit Details</h2>
                         <div className="space-y-4 overflow-y-auto" style={{ height: 'calc(100% - 120px)' }}>
-                            <div>
+                            {/* <div>
                                 <label className="block text-gray-900 dark:text-white">Name:</label>
                                 <input
                                     type="text"
@@ -108,7 +108,7 @@ function SpecialLab() {
                                     className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
                                     placeholder="Name"
                                 />
-                            </div>
+                            </div> */}
                             <div>
                                 <label className="block text-gray-900 dark:text-white">Description:</label>
                                 <textarea
@@ -119,7 +119,7 @@ function SpecialLab() {
                                     placeholder="Description"
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <label className="block text-gray-900 dark:text-white">Faculty 1:</label>
                                 <input
                                     type="text"
@@ -140,7 +140,7 @@ function SpecialLab() {
                                     className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
                                     placeholder="Faculty 2"
                                 />
-                            </div>
+                            </div> */}
                             <div>
                                 <label className="block text-gray-900 dark:text-white">Promo Video Embed Code:</label>
                                 <input
@@ -152,7 +152,7 @@ function SpecialLab() {
                                     placeholder="Enter YouTube embed code"
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <label className="block text-gray-900 dark:text-white">Student Achievements 1:</label>
                                 <input
                                     type="text"
@@ -184,8 +184,8 @@ function SpecialLab() {
                                     className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
                                     placeholder="Achievement 3"
                                 />
-                            </div>
-                            <div>
+                            </div> */}
+                            {/* <div>
                                 <label className="block text-gray-900 dark:text-white">Total Students:</label>
                                 <input
                                     type="number"
@@ -195,9 +195,9 @@ function SpecialLab() {
                                     className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
                                     placeholder="Total Students"
                                 />
-                            </div>
+                            </div> */}
                             <div>
-                                <label className="block text-gray-900 dark:text-white">Slot 1:</label>
+                                <label className="block text-gray-900 dark:text-white">Slot:</label>
                                 <input
                                     type="text"
                                     name="slot1"
@@ -207,7 +207,7 @@ function SpecialLab() {
                                     placeholder="Slot 1"
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <label className="block text-gray-900 dark:text-white">Slot 2:</label>
                                 <input
                                     type="text"
@@ -228,7 +228,7 @@ function SpecialLab() {
                                     className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white"
                                     placeholder="Slot 3"
                                 />
-                            </div>
+                            </div> */}
                         </div>
                         <div className="flex justify-end mt-4">
                             <button

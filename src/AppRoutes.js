@@ -5,7 +5,7 @@
  import NotFoundPage from "./pages/404";
  import Student from "./pages/student";
  import Staff from "./pages/staff";
- import Admin from "./pages/admin/admin";
+ import Admin from "./pages/admin/";
  import Mentor from "./pages/mentor/mentor";
  
  // Add the route here if there is no need for user's identity

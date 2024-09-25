@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import NavigationBar from '../staff/staff_menu/Navbar';
-import { Request } from '../../networking/index';
+import NavigationBar from '../admin_menu/index';
+import { Request } from '../../../networking/index';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +17,7 @@ function Admin() {
     const [unblockEmail, setUnblockEmail] = useState('');
     const [fileName, setFileName] = useState('');
     const [specialLab, setSpecialLab] = useState(''); // New state for special lab
-    const [specialNumber, setSpecialNumber] = useState('');
+    const [specialLabCode, setSpecialLabCode] = useState('');
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -32,7 +32,7 @@ function Admin() {
             // Assuming "Request" is a custom function you've defined to make HTTP requests
             const response = await Request(
                 'POST', // HTTP method
-                '/addUser', // Endpoint for adding the user
+                '/user/addUser', // Endpoint for adding the user
                 { name, email, rollNumber, role: selectedDropdown }, // Payload
                 null // Additional options (if any)
             );
@@ -70,7 +70,7 @@ function Admin() {
             // Make the DELETE request to remove the user by email
             const response = await Request(
                 'DELETE', // HTTP method
-                '/removeUser', // Backend route for removing the user
+                '/user/removeUser', // Backend route for removing the user
                 { email: removeUserEmail }, // Payload to identify the user (in this case, email)
                 null // Additional options (if any)
             );
@@ -124,7 +124,7 @@ function Admin() {
         try {
             const response = await Request(
                 'PUT', // HTTP method
-                '/blockUser', // Endpoint for blocking the user
+                '/user/blockUser', // Endpoint for blocking the user
                 { email: blockEmail }, // Payload
                 null // Additional options (if any)
             );
@@ -149,7 +149,7 @@ function Admin() {
         try {
             const response = await Request(
                 'PUT', // HTTP method
-                '/unblockUser', // Endpoint for unblocking the user
+                '/user/unblockUser', // Endpoint for unblocking the user
                 { email: unblockEmail }, // Payload
                 null // Additional options (if any)
             );
@@ -171,8 +171,8 @@ function Admin() {
 
     const handleSpecialLabSubmit = async () => {
         // Check if the special lab name and number are not empty
-        if (!specialLab || !specialNumber) {
-            toast.error('Please enter both the Special Lab Name and Special Number.');
+        if (!specialLab || !specialLabCode) {
+            toast.error('Please enter both the Special Lab Name and Special Lab Code.');
             return; // Exit the function if validation fails
         }
     
@@ -180,23 +180,31 @@ function Admin() {
             // Make the POST request to send the special lab name and number
             const response = await Request(
                 'POST',
-                '/add-special-lab', // Replace with your actual backend endpoint
+                '/speciallabs/addSpecialLab', // Replace with your actual backend endpoint
                 {
                     specialLabName: specialLab,
-                    specialNumber: specialNumber,
+                    specialLabCode: specialLabCode
                 },
                 null
             );
-            console.log('Response:', response);
+
+            const data = await response.data;
+
+            if (response.ok || response.status === 201) {
+                toast.success(data.message);
+            }
+            else {
+                toast.error(data.error || 'An error occurred while submitting special lab details.');
+            }
         } catch (error) {
-            console.error('Error submitting special lab details:', error);
+            toast.error('An error occurred. Please try again.');
         }
     };
 
     return (
         <div className="h-full w-full bg-gray-100 dark:bg-gray-700 min-w-60 relative transition-colors duration-0">
             <ToastContainer />
-            <NavigationBar active="Admin" sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />
+            <NavigationBar active="home" sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />
             <div className="p-6">
                 <div className="bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-600 rounded-md shadow-md space-y-6">
                     <div className="flex flex-wrap space-x-4 mb-4">
@@ -211,6 +219,18 @@ function Admin() {
                             onClick={() => setSelectedDropdown('faculty')}
                         >
                             Faculty
+                        </button>
+                        <button
+                            className={`py-2 px-4 rounded-md transition-transform duration-300 transform ${selectedDropdown === 'mentor' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
+                            onClick={() => setSelectedDropdown('mentor')}
+                        >
+                            Mentor
+                        </button>
+                        <button
+                            className={`py-2 px-4 rounded-md transition-transform duration-300 transform ${selectedDropdown === 'admin' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
+                            onClick={() => setSelectedDropdown('admin')}
+                        >
+                            Admin
                         </button>
                     </div>
 
@@ -259,7 +279,7 @@ function Admin() {
                     </form>
 
                     <div className="space-y-4">
-                <h2 className="text-lg font-bold">Remove User</h2>
+                <h2 className="text-lg font-bold dark:text-white">Remove User</h2>
                 <div>
                     <label className="block text-gray-900 dark:text-white">Email:</label>
                     <input
@@ -355,10 +375,10 @@ function Admin() {
                     <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Special Lab</h2>
                     <input
                         type="text"
-                        value={specialNumber}
-                        onChange={(e) => setSpecialNumber(e.target.value)}
+                        value={specialLabCode}
+                        onChange={(e) => setSpecialLabCode(e.target.value)}
                         className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0 mb-4"
-                        placeholder="Enter Special Number"
+                        placeholder="Enter Special Lab Code"
                     />
                     <input
                         type="text"

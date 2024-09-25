@@ -117,7 +117,7 @@ function LabDetails() {
                     <Iframe url={specialLabDetails.promoVideoUrl} className='w-full lg:w-1/2 h-full rounded-lg'/>
                 </div>
 
-                <div className='slider-container w-[80%] lg:w-1/3 h-44 mt-10 rounded-lg'>
+                {/* <div className='slider-container w-[80%] lg:w-1/3 h-44 mt-10 rounded-lg'>
                     <Slider {...settings}>
                         {specialLabDetails.slides.map((slide) => (
                             <div key={slide.id} className='bg-gray-800 h-40 p-4 mb-4 rounded-lg'>
@@ -126,7 +126,7 @@ function LabDetails() {
                             </div>
                         ))}
                     </Slider>
-                </div>
+                </div> */}
 
                 <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-14 mb-10' onClick={handleBookSlot}>Book Slot</button>
                 
