@@ -30,7 +30,7 @@ function Sidebar({ active, sidebarToggle, setSidebarToggle }) {
                 >
                     <div className='px-3 flex items-center cursor-pointer'>
                         <FaFlask className='inline-block w-6 h-6 mr-2' />
-                        SpecialLab Faculty
+                        SpecialLabs
                     </div>
                 </li>
                 <li

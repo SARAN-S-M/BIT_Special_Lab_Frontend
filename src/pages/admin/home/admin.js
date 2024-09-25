@@ -10,14 +10,17 @@ function Admin() {
     const [selectedDropdown, setSelectedDropdown] = useState('student');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [removeUserEmail, setRemoveUserEmail] = useState(''); // New state for removing user
+    const [removeUserEmail, setRemoveUserEmail] = useState(''); 
     const [rollNumber, setRollNumber] = useState('');
     const [csvFile, setCsvFile] = useState(null);
     const [blockEmail, setBlockEmail] = useState('');
     const [unblockEmail, setUnblockEmail] = useState('');
     const [fileName, setFileName] = useState('');
-    const [specialLab, setSpecialLab] = useState(''); // New state for special lab
+    const [specialLab, setSpecialLab] = useState(''); 
     const [specialLabCode, setSpecialLabCode] = useState('');
+    const [removeLabCode, setRemoveLabCode] = useState('');
+    const [facultyEmail, setFacultyEmail] = useState('');
+    const [facultyLabCode, setFacultyLabCode] = useState('');
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -201,6 +204,91 @@ function Admin() {
         }
     };
 
+    const handleRemoveLab = async () => {
+        if(!removeLabCode) {
+            toast.error('Please enter the Lab Code to remove');
+            return;
+        }
+
+        try {
+
+            const response = await Request(
+                'DELETE',
+                '/speciallabs/removeSpecialLab',
+                { specialLabCode: removeLabCode },
+                null
+            );
+
+            const data = await response.data;
+
+            if (response.ok || response.status === 200) {
+                toast.success(data.message);
+            }
+            else if (response.status === 201) {
+                toast.error(data.error || 'An error occurred while removing the special lab.');
+            }
+            else {
+                toast.error(data.error || 'An error occurred while removing the special lab.');
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again.');
+        }
+    };
+
+    const handleAddFaculty = async () => {
+        if(!facultyEmail || !facultyLabCode) {
+            toast.error('Please enter both the Faculty Roll Number and Lab Code');
+            return;
+        }
+
+        try {
+            const response = await Request(
+                'POST',
+                '/speciallabs/addFaculty',
+                { facultyEmail: facultyEmail, specialLabCode: facultyLabCode },
+                null
+            );
+
+            const data = await response.data;
+
+            if (response.ok || response.status === 201) {
+                toast.success(data.message);
+            }
+            else {
+                toast.error(data.error || 'An error occurred while adding the faculty.');
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again.');
+        }
+    }
+
+    const handleRemoveFaculty = async () => {
+        if(!facultyEmail || !facultyLabCode) {
+            toast.error('Please enter both the Faculty Roll Number and Lab Code');
+            return;
+        }
+
+        try {
+            const response = await Request(
+                'DELETE',
+                '/speciallabs/removeFaculty',
+                { facultyEmail: facultyEmail, specialLabCode: facultyLabCode },
+                null
+            );
+
+            const data = await response.data;
+
+            if (response.ok || response.status === 200) {
+                toast.success(data.message);
+            }
+            else {
+                toast.error(data.error || 'An error occurred while removing the faculty.');
+            }
+        } catch (error) {
+            toast.error('An error occurred. Please try again.');
+        }
+    }
+
     return (
         <div className="h-full w-full bg-gray-100 dark:bg-gray-700 min-w-60 relative transition-colors duration-0">
             <ToastContainer />
@@ -209,25 +297,25 @@ function Admin() {
                 <div className="bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-600 rounded-md shadow-md space-y-6">
                     <div className="flex flex-wrap space-x-4 mb-4">
                         <button
-                            className={`py-2 px-4 rounded-md transition-transform duration-300 transform ${selectedDropdown === 'student' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
+                            className={`py-2 px-4 rounded-md border-2 border-gray-400 transition-transform duration-300 transform ${selectedDropdown === 'student' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
                             onClick={() => setSelectedDropdown('student')}
                         >
                             Student
                         </button>
                         <button
-                            className={`py-2 px-4 rounded-md transition-transform duration-300 transform ${selectedDropdown === 'faculty' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
+                            className={`py-2 px-4 rounded-md border-2 border-gray-400 transition-transform duration-300 transform ${selectedDropdown === 'faculty' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
                             onClick={() => setSelectedDropdown('faculty')}
                         >
                             Faculty
                         </button>
                         <button
-                            className={`py-2 px-4 rounded-md transition-transform duration-300 transform ${selectedDropdown === 'mentor' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
+                            className={`py-2 px-4 rounded-md border-2 border-gray-400 transition-transform duration-300 transform ${selectedDropdown === 'mentor' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
                             onClick={() => setSelectedDropdown('mentor')}
                         >
                             Mentor
                         </button>
                         <button
-                            className={`py-2 px-4 rounded-md transition-transform duration-300 transform ${selectedDropdown === 'admin' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
+                            className={`py-2 px-4 rounded-md border-2 border-gray-400 transition-transform duration-300 transform ${selectedDropdown === 'admin' ? 'bg-blue-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-800 dark:text-white'}`}
                             onClick={() => setSelectedDropdown('admin')}
                         >
                             Admin
@@ -301,33 +389,6 @@ function Admin() {
             </div>
 
 
-                    {/* <div className="bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-600 rounded-md shadow-md mt-6 mb-6">
-                        <div className="mb-4 md:mb-6 flex flex-col md:flex-row items-start md:items-center">
-                            <label className="text-base md:text-lg text-gray-900 dark:text-gray-300 w-full md:w-1/5 mb-2 md:mb-0">Upload CSV:</label>
-                            <div className="w-full md:w-5/5 relative">
-                                <input
-                                    type="file"
-                                    id="fileInput"
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                    onChange={handleFileChange}
-                                />
-                                <label
-                                    htmlFor="fileInput"
-                                    className="w-full h-10 bg-gray-200 dark:bg-gray-700 rounded-lg text-gray-900 dark:text-gray-300 flex items-center justify-center cursor-pointer"
-                                >
-                                    {fileName || "Choose File"}
-                                </label>
-                            </div>
-                        </div>
-                        <div className="flex justify-end">
-                            <button
-                                onClick={handleFileSubmit}
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
-                            >
-                                Submit File
-                            </button>
-                        </div>
-                    </div> */}
                 </div>
 
                 <div className="mt-6 bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-600 rounded-md shadow-md">
@@ -343,12 +404,12 @@ function Admin() {
                         <div className="flex justify-end mt-4">
                             <button
                                 onClick={handleBlock}
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
                             >
                                 Block
                             </button>
                         </div>
-                    </div>
+                    </div> 
 
                     <div>
                         <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Unblock Email</h2>
@@ -362,7 +423,7 @@ function Admin() {
                         <div className="flex justify-end mt-4">
                             <button
                                 onClick={handleUnblock}
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
                             >
                                 Unblock
                             </button>
@@ -384,15 +445,74 @@ function Admin() {
                         type="text"
                         value={specialLab}
                         onChange={(e) => setSpecialLab(e.target.value)}
-                        className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0"
+                        className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0 mb-4"
                         placeholder="Enter Special Lab Name"
                     />
                     <div className="flex justify-end mt-4">
                         <button
                             onClick={handleSpecialLabSubmit}
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300 mr-2"
                         >
                             Submit
+                        </button>
+                    </div>
+
+                    {/* Input field for removing a lab */}
+                    <input
+                        type="text"
+                        value={removeLabCode}
+                        onChange={(e) => setRemoveLabCode(e.target.value)}
+                        className="mt-4 w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0 mb-4"
+                        placeholder="Enter Lab Code to Remove"
+                    />
+                    
+                    {/* Remove button */}
+                    <div className="flex justify-end mt-2">
+                        <button
+                            onClick={handleRemoveLab}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                </div>
+                {/* Faculty Management Container */}
+                <div className="mt-6 bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-600 rounded-md shadow-md">
+                    <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Manage Faculty</h2>
+                    
+                    {/* Input for Faculty Roll Number */}
+                    <input
+                        type="text"
+                        value={facultyEmail}
+                        onChange={(e) => setFacultyEmail(e.target.value)}
+                        className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0 mb-4"
+                        placeholder="Enter Faculty Email"
+                    />
+                    
+                    {/* Input for Lab Code to Associate with Faculty */}
+                    <input
+                        type="text"
+                        value={facultyLabCode}
+                        onChange={(e) => setFacultyLabCode(e.target.value)}
+                        className="w-full p-2 rounded-md bg-gray-200 dark:bg-gray-900 dark:text-white transition-colors duration-0 mb-4"
+                        placeholder="Enter Lab Code to Associate"
+                    />
+
+                    {/* Add Faculty Button */}
+                    <div className="flex justify-end mt-4">
+                        <button
+                            onClick={handleAddFaculty}
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300 mr-2"
+                        >
+                            Add Faculty
+                        </button>
+                        
+                        {/* Remove Faculty Button */}
+                        <button
+                            onClick={handleRemoveFaculty}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition-all duration-300"
+                        >
+                            Remove Faculty
                         </button>
                     </div>
                 </div>
