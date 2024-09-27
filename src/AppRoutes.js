@@ -39,7 +39,7 @@
                   <Route path="questions/:testId" element={<Questions />} /> */}
 
                     <Route path="student/*" element={<Student />} />
-                    <Route path="teacher/*" element={<Staff />} />
+                    <Route path="faculty/*" element={<Staff />} />
                     <Route path="Admin/*" element={<Admin />} />
                     <Route path="mentor/*" element={<Mentor />} />
 

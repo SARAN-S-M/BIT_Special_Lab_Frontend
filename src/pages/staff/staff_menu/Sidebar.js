@@ -17,19 +17,19 @@ function Sidebar({ sidebarToggle, setSidebarToggle, active }) {
       <hr className='border-t border-black dark:border-white' />
       <ul className='mt-3 text-black dark:text-white font-bold'>
         <li className='mb-2'>
-          <Link to="/teacher/" className={`flex items-center gap-x-3 p-2 rounded-md hover:shadow hover:bg-blue-500 hover:text-white ${active === 'SpecialLab' ? 'border-2 border-blue-700' : ''}`}>
+          <Link to="/faculty/" className={`flex items-center gap-x-3 p-2 rounded-md hover:shadow hover:bg-blue-500 hover:text-white ${active === 'SpecialLab' ? 'border-2 border-blue-700' : ''}`}>
             <FaHome className="w-5 h-5" />
             Special Lab
           </Link>
         </li>
         <li className='mb-2'>
-          <Link to="/teacher/StudentInterview" className={`flex items-center gap-x-3 p-2 rounded-md hover:shadow hover:bg-blue-500 hover:text-white ${active === 'StudentInterview' ? 'border-2 border-blue-700' : ''}`}>
+          <Link to="/faculty/StudentInterview" className={`flex items-center gap-x-3 p-2 rounded-md hover:shadow hover:bg-blue-500 hover:text-white ${active === 'StudentInterview' ? 'border-2 border-blue-700' : ''}`}>
             <FaUserGraduate className="w-5 h-5" />
             Student Interview
           </Link>
         </li>
         <li className='mb-2'>
-          <Link to="/teacher/StudentRegistration" className={`flex items-center gap-x-3 p-2 rounded-md hover:shadow hover:bg-blue-500 hover:text-white ${active === 'StudentRegistration' ? 'border-2 border-blue-700' : ''}`}>
+          <Link to="/faculty/StudentRegistration" className={`flex items-center gap-x-3 p-2 rounded-md hover:shadow hover:bg-blue-500 hover:text-white ${active === 'StudentRegistration' ? 'border-2 border-blue-700' : ''}`}>
             <FaClipboardList className="w-5 h-5" />
             Student Registration
           </Link>

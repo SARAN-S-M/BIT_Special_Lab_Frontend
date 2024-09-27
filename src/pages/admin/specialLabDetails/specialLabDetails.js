@@ -1,63 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Iframe from 'react-iframe';
-import NavigationBar from '../../menu/index';
-import Loading from '../../loading/Loadingscreen';
+import NavigationBar from '../admin_menu/index';
 import { Request } from '../../../networking/index';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
-
 import Select from 'react-select';
 
-import '../../../index.css';
-
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import SpecialLab from '../../staff/SpecialLab';
-
-function LabDetails() {
-
+function SpecialLabsDetails() {
+    const [sidebarToggle, setSidebarToggle] = useState(true);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const PrevArrow = (props) => {
-        const { className, onClick } = props;
-        return (
-            <div
-                className={className + " slick-prev"}
-                onClick={onClick}
-                style={{ color: "red", left: "-30px" }} // Change color and adjust position as needed
-            />
-        );
-    };
-
-    // Custom component for the next arrow
-    const NextArrow = (props) => {
-        const { className, onClick } = props;
-        return (
-            <div
-                className={className + " slick-next"}
-                onClick={onClick}
-                style={{ color: "red", right: "-30px" }} // Change color and adjust position as needed
-            />
-        );
-    };
-
-
-    const [isLoading, setIsLoading] = useState(false);
-
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        dots: true,
-        arrows: true,
-        autoplay: true,
-        autoplaySpeed: 3000
-    };
-
-    // Dummy data for special lab details
     const [specialLabDetails, setSpecialLabDetails] = useState({
         SpecialLabName: "Special Lab Name",
         SpecialLabCode: "SL01",
@@ -76,15 +28,9 @@ function LabDetails() {
                 facultyEmail: 'faculty3@bitsathy.ac.in'
             }
         ],
-        promoVideoUrl: "https://www.youtube.com/embed/ddTV12hErTc?si=x27iEC-yzd-poB2k",
-        // slides: [
-        //     { id: 1, content: "Slide 1" },
-        //     { id: 2, content: "Slide 2" },
-        //     { id: 3, content: "Slide 3" }
-        // ]
+        promoVideoUrl: "https://www.youtube.com/embed/ddTV12hErTc?si=x27iEC-yzd-poB2k"
     });
 
-    // get the id in the url and store it in a usestate
     const { id } = useParams();
 
     useEffect(() => {
@@ -107,10 +53,6 @@ function LabDetails() {
                         facultyEmail: faculty.facultyEmail
                     })),
                     promoVideoUrl: fetchedDetails.promoVideoUrl,
-                //     // slides: fetchedDetails.slides.map(slide => ({
-                //     //     id: slide.id,
-                //     //     content: slide.content
-                //     // }))
                 });
                 console.log('Fetched special lab details.');
             } catch (error) {
@@ -121,7 +63,6 @@ function LabDetails() {
     }, []);
 
     const handleBookSlot = () => {
-        //set the isopen modal to true
         setModalIsOpen(true);
     };
 
@@ -144,17 +85,9 @@ function LabDetails() {
       ];
 
     return (
-        <div className="h-screen w-full bg-white min-w-60 dark:bg-gray-600 relative">
-            { isLoading &&
-                <div className='absolute z-30 w-full h-full bg-black bg-opacity-20'>
-                    <Loading />
-                </div>
-            }
-
-            <nav>
-                <NavigationBar active="Special_Labs" />
-            </nav>
-
+        <div className="h-screen w-full bg-gray-100 dark:bg-gray-700 min-w-60 relative transition-colors duration-0">
+            <ToastContainer />
+            <NavigationBar active="specialLabs" sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />
             <div className='h-screen relative flex flex-col items-center justify-center bg-white dark:bg-gray-700'>
                 <div className='text-3xl font-bold dark:text-gray-300'>{specialLabDetails.SpecialLabName} - {specialLabDetails.SpecialLabCode}</div>
                 <div className='text-lg mt-4 dark:text-gray-300'>{specialLabDetails.SpecialLabDescription}</div>
@@ -166,27 +99,13 @@ function LabDetails() {
                 </div>
 
                 <div className='mt-8 w-full h-96 flex flex-col items-center dark:text-gray-300'>
-                    {/* <div className='w-full h-60 bg-gray-800 rounded-md'></div> */}
                     <div className='text-lg font-bold'>Promo Video</div>
                     <Iframe url={specialLabDetails.promoVideoUrl} className='w-full lg:w-1/2 h-full rounded-lg'/>
                 </div>
-
-                {/* <div className='slider-container w-[80%] lg:w-1/3 h-44 mt-10 rounded-lg'>
-                    <Slider {...settings}>
-                        {specialLabDetails.slides.map((slide) => (
-                            <div key={slide.id} className='bg-gray-800 h-40 p-4 mb-4 rounded-lg'>
-                                <div className='text-lg font-bold dark:text-gray-300'>{slide.id}</div>
-                                <div className='dark:text-gray-300'>{slide.content}</div>
-                            </div>
-                        ))}
-                    </Slider>
-                </div> */}
-
                 <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-14 mb-10' onClick={handleBookSlot}>Book Slot</button>
                 
             </div>
 
-            {/* write the code for the modal */}
             {modalIsOpen &&
                 <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50' onClick={() => setModalIsOpen(false)}>
                 <div className='bg-white dark:bg-gray-700 rounded-lg border-2 border-gray-500 shadow-lg w-full max-w-md overflow-y-auto' onClick={(e) => e.stopPropagation()}>
@@ -201,19 +120,6 @@ function LabDetails() {
                                 <option value={option.value} key={option.value} className='mt-10'>{option.label}</option>
                             ))}
                         </select>
-
-                        {/* <Select
-                            className="basic-single"
-                            classNamePrefix="select"
-                            defaultValue={colourOptions[0]}
-                            isDisabled={isDisabled}
-                            isLoading={isLoadings}
-                            isClearable={isClearable}
-                            isRtl={isRtl}
-                            isSearchable={isSearchable}
-                            name="color"
-                            options={colourOptions}
-                        /> */}
                     </div>
                     <div className='flex justify-between mt-4 p-4'>
                         <button className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded' onClick={() => alert('Slot booked!')}>Submit</button>
@@ -222,9 +128,8 @@ function LabDetails() {
                 </div>
             </div>
             }
-
         </div>
     );
 }
 
-export default LabDetails;
+export default SpecialLabsDetails;

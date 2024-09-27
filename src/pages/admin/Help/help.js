@@ -19,9 +19,10 @@ function Help() {
                 setHelpMaterials(response.data);
             } catch (error) {
                 toast.error('Failed to fetch help materials.');
-            } finally {
-                setLoading(false);
             }
+            //  finally {
+            //     setLoading(false);
+            // }
         };
 
         fetchHelpMaterials();

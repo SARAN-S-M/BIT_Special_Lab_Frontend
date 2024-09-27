@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavigationBar from '../../menu/index';
 import Loading from '../../loading/Loadingscreen';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Request } from '../../../networking/index';
 
 function LabBooking() {
     const [labs, setLabs] = useState([
-        { id: 1, number: '01', label: "Lab 1", link: "#" },
-        { id: 2, number: '02', label: "Lab 2", link: "#" },
-        { id: 3, number: '03', label: "Lab 3", link: "#" },
-        { id: 4, number: '10', label: "Lab..", link: "#" } // Example showing lab numbers are not sequential
+        { id: 1, specialLabCode: '01', specialLabName: "Lab 1"},
+        { id: 2, specialLabCode: '02', specialLabName: "Lab 2"},
+        { id: 3, specialLabCode: '03', specialLabName: "Lab 3"},
+        { id: 4, specialLabCode: '10', specialLabName: "Lab.."} // Example showing lab numbers are not sequential
     ]);
 
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,9 +23,32 @@ function LabBooking() {
 
     // Filter labs based on the search input
     const filteredLabs = labs.filter(lab => 
-        lab.label.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        lab.number.toLowerCase().includes(searchTerm.toLowerCase()) 
+        lab.specialLabName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        lab.specialLabCode.toLowerCase().includes(searchTerm.toLowerCase()) 
     );
+
+    useEffect(() => {
+        const fetchLabs = async () => {
+            // console.log('Fetching labs...');
+            try {
+                const response = await Request(
+                    'GET', 
+                    '/speciallabs/getlabsNames', 
+                    null
+                );
+                setLabs(response.data.labs);
+            setLabs(response.data.labs.map((lab, index) => ({
+                id: lab.hashedId,
+                specialLabCode: lab.specialLabCode,
+                specialLabName: lab.specialLabName
+            })));
+            // console.log('Fetched labs.');
+            } catch (error) {
+                toast.error('Failed to fetch labs.');
+            }
+        };
+        fetchLabs();
+    }, []);
     
 
     return (
@@ -51,13 +76,13 @@ function LabBooking() {
 
                     {/* Lab List */}
                     <ul className='flex flex-col gap-4 mt-4'>
-                        {filteredLabs.map((lab) => (
+                        {filteredLabs.map((lab, index) => (
                             <li 
                                 key={lab.id} 
                                 className='bg-white border border-black px-4 py-2 rounded-md dark:text-white dark:border-white dark:bg-gray-800 dark:hover:bg-gray-700 dark:hover:text-white min-w-10 truncate cursor-pointer'
                                 onClick={() => navigate(`/student/LabBooking/${lab.id}`)}
                             >
-                                {`${lab.number} - ${lab.label}`}
+                                {`${index + 1} ${lab.specialLabName} - ${lab.specialLabCode}`}
                             </li>
                         ))}
                     </ul>
