@@ -63,7 +63,7 @@ function Dashboard() {
                     <h2 className="text-lg font-semibold text-black dark:text-white capitalize">
                     {key.replace(/([A-Z])/g, ' $1')} {/* Formats the key for display */}
                     </h2>
-                    <p className="text-gray-700 dark:text-gray-300">{value}</p>
+                    <p className="text-gray-700 dark:text-gray-300">{value || '-'}</p>
                 </div>
                 ))}
             </div>

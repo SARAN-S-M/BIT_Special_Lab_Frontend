@@ -3,7 +3,8 @@ import Iframe from 'react-iframe';
 import NavigationBar from '../../menu/index';
 import Loading from '../../loading/Loadingscreen';
 import { Request } from '../../../networking/index';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 
 import Select from 'react-select';
@@ -18,46 +19,7 @@ import SpecialLab from '../../staff/SpecialLab';
 function LabDetails() {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const PrevArrow = (props) => {
-        const { className, onClick } = props;
-        return (
-            <div
-                className={className + " slick-prev"}
-                onClick={onClick}
-                style={{ color: "red", left: "-30px" }} // Change color and adjust position as needed
-            />
-        );
-    };
-
-    // Custom component for the next arrow
-    const NextArrow = (props) => {
-        const { className, onClick } = props;
-        return (
-            <div
-                className={className + " slick-next"}
-                onClick={onClick}
-                style={{ color: "red", right: "-30px" }} // Change color and adjust position as needed
-            />
-        );
-    };
-
-
     const [isLoading, setIsLoading] = useState(false);
-
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        dots: true,
-        arrows: true,
-        autoplay: true,
-        autoplaySpeed: 3000
-    };
-
-    // Dummy data for special lab details
     const [specialLabDetails, setSpecialLabDetails] = useState({
         SpecialLabName: "Special Lab Name",
         SpecialLabCode: "SL01",
@@ -77,12 +39,23 @@ function LabDetails() {
             }
         ],
         promoVideoUrl: "https://www.youtube.com/embed/ddTV12hErTc?si=x27iEC-yzd-poB2k",
-        // slides: [
-        //     { id: 1, content: "Slide 1" },
-        //     { id: 2, content: "Slide 2" },
-        //     { id: 3, content: "Slide 3" }
-        // ]
     });
+    const [availableSlots, setAvailableSlots] = useState([
+        {
+            id: 1,
+            date: '2024-10-05',
+            fromTime: '09:00 AM',
+            toTime: '11:00 AM',
+            totalStudents: 25,
+        },
+        {
+            id: 2,
+            date: '2024-10-06',
+            fromTime: '10:00 AM',
+            toTime: '12:00 PM',
+            totalStudents: 30,
+        },
+    ]);
 
     // get the id in the url and store it in a usestate
     const { id } = useParams();
@@ -120,28 +93,51 @@ function LabDetails() {
         fetchSpecialLabDetails();
     }, []);
 
-    const handleBookSlot = () => {
-        //set the isopen modal to true
-        setModalIsOpen(true);
+    const handleAvailableSlot = async () => {
+        try {
+            const response = await Request(
+                'GET',
+                `/speciallabs/getSlotById/${id}`,
+                null
+            );
+            // console.log(response.data);
+            // console.log("_-_-_-_-_-_-_-")
+            // console.log(response.data.hashedId);
+            const slots = response.data.slots.map(slot => ({
+                id: slot.hashedId,
+                date: new Date(slot.date).toLocaleDateString(),
+                fromTime: new Date(slot.fromTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                toTime: new Date(slot.toTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                totalStudents: slot.totalStudents,
+            }));
+            setAvailableSlots(slots);
+            setModalIsOpen(true);
+            // console.log(response);
+            // console.log(response.data.slots);
+        } catch (error) {
+            toast.error('Failed to fetch available slots.');
+            console.error(error);
+        }
     };
 
-    const handleSelect = (e) => {
-        alert(e.target.value);
+    const handleBookSlot = async (slotId) => {
+        console.log(slotId);
+        try {
+            const response = await Request(
+                'POST',
+                `/speciallabs/bookSlot/${id}`,
+                {
+                    hashedIdSlotId: slotId
+                }
+            );
+            console.log(response);
+            toast.success('Slot booked successfully.');
+            // setModalIsOpen(false);
+        } catch (error) {
+            toast.error('Failed to book slot.');
+            console.error(error);
+        }
     };
-
-    const [isClearable, setIsClearable] = useState(true);
-    const [isSearchable, setIsSearchable] = useState(true);
-    const [isDisabled, setIsDisabled] = useState(false);
-    const [isLoadings, setIsLoadings] = useState(false);
-    const [isRtl, setIsRtl] = useState(false);
-
-    const colourOptions = [
-        { value: 'red', label: 'Red' },
-        { value: 'green', label: 'Green' },
-        { value: 'blue', label: 'Blue' },
-        { value: 'yellow', label: 'Yellow' },
-        { value: 'black', label: 'Black' },
-      ];
 
     return (
         <div className="h-screen w-full bg-white min-w-60 dark:bg-gray-600 relative">
@@ -166,63 +162,47 @@ function LabDetails() {
                 </div>
 
                 <div className='mt-8 w-full h-96 flex flex-col items-center dark:text-gray-300'>
-                    {/* <div className='w-full h-60 bg-gray-800 rounded-md'></div> */}
                     <div className='text-lg font-bold'>Promo Video</div>
                     <Iframe url={specialLabDetails.promoVideoUrl} className='w-full lg:w-1/2 h-full rounded-lg'/>
                 </div>
 
-                {/* <div className='slider-container w-[80%] lg:w-1/3 h-44 mt-10 rounded-lg'>
-                    <Slider {...settings}>
-                        {specialLabDetails.slides.map((slide) => (
-                            <div key={slide.id} className='bg-gray-800 h-40 p-4 mb-4 rounded-lg'>
-                                <div className='text-lg font-bold dark:text-gray-300'>{slide.id}</div>
-                                <div className='dark:text-gray-300'>{slide.content}</div>
-                            </div>
-                        ))}
-                    </Slider>
-                </div> */}
-
-                <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-14 mb-10' onClick={handleBookSlot}>Book Slot</button>
+                <button className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-14 mb-10' onClick={handleAvailableSlot}>Book Slot</button>
                 
             </div>
 
-            {/* write the code for the modal */}
-            {modalIsOpen &&
-                <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50' onClick={() => setModalIsOpen(false)}>
-                <div className='bg-white dark:bg-gray-700 rounded-lg border-2 border-gray-500 shadow-lg w-full max-w-md overflow-y-auto' onClick={(e) => e.stopPropagation()}>
-                    <div className='flex justify-between items-center bg-blue-500 text-white px-4 py-2 rounded-t-sm'>
-                        <h2 className='text-lg md:text-2xl'>Book a Slot</h2>
-                        <button className='text-white' onClick={() => setModalIsOpen(false)}>X</button>
-                    </div>
-                    <div className='mt-4 p-4'>
-                        <label htmlFor="slot" className='block mb-2 dark:text-white'>Choose a slot:</label>
-                        <select id="slot" className='w-full p-2 border border-gray-500 rounded overflow-y-scroll' onChange={handleSelect}>
-                            {colourOptions.map((option) => (
-                                <option value={option.value} key={option.value} className='mt-10'>{option.label}</option>
+            {modalIsOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white dark:bg-gray-800 w-11/12 md:w-2/3 h-4/5 p-6 rounded-lg shadow-lg relative">
+                        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Available Slots</h2>
+                        <div className="space-y-4 overflow-y-auto" style={{ height: 'calc(100% - 120px)' }}>
+                            {availableSlots.map((slot) => (
+                                <div key={slot.id} className="bg-gray-200 dark:bg-gray-700 p-4 rounded-md shadow-md flex justify-between items-center">
+                                    <div>
+                                        <p className="text-gray-900 dark:text-white">Date: {slot.date}</p>
+                                        <p className="text-gray-900 dark:text-white">Time: {slot.fromTime} - {slot.toTime}</p>
+                                        <p className="text-gray-900 dark:text-white">Total Students: {slot.totalStudents}</p>
+                                    </div>
+                                    <button
+                                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                                        onClick={() => handleBookSlot(slot.id)}
+                                    >
+                                        Book
+                                    </button>
+                                </div>
                             ))}
-                        </select>
-
-                        {/* <Select
-                            className="basic-single"
-                            classNamePrefix="select"
-                            defaultValue={colourOptions[0]}
-                            isDisabled={isDisabled}
-                            isLoading={isLoadings}
-                            isClearable={isClearable}
-                            isRtl={isRtl}
-                            isSearchable={isSearchable}
-                            name="color"
-                            options={colourOptions}
-                        /> */}
-                    </div>
-                    <div className='flex justify-between mt-4 p-4'>
-                        <button className='bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded' onClick={() => alert('Slot booked!')}>Submit</button>
-                        <button className='bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded' onClick={() => setModalIsOpen(false)}>Close</button>
+                        </div>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                className="ml-4 bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
+                                onClick={() => setModalIsOpen(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            }
-
+            )}
+            <ToastContainer />
         </div>
     );
 }

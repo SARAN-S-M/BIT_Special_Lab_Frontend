@@ -205,6 +205,7 @@ function Admin() {
     };
 
     const handleRemoveLab = async () => {
+        console.log("Hello")
         if(!removeLabCode) {
             toast.error('Please enter the Lab Code to remove');
             return;
