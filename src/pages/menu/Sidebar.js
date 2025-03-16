@@ -42,7 +42,7 @@ function Sidebar({ active, sidebarToggle, setSidebarToggle }) {
                         Lab Change
                     </div>
                 </li>
-                <li
+                {/* <li
                     className={` ${active === "Special_Slot_Booking" ? "border-2 border-blue-700" : ""} mb-2 rounded hover:shadow hover:bg-blue-500 py-2 hover:text-white`}
                     onClick={() => navigate('/student/SpecialSlot')}
                 >
@@ -50,7 +50,7 @@ function Sidebar({ active, sidebarToggle, setSidebarToggle }) {
                         <FaCalendarAlt className='inline-block w-6 h-6 mr-2' />
                         Special Slot Booking
                     </div>
-                </li>
+                </li> */}
                 <li
                     className={` ${active === "Help" ? "border-2 border-blue-700" : ""} mb-2 rounded hover:shadow hover:bg-blue-500 py-2 hover:text-white`}
                     onClick={() => navigate('/student/help')}

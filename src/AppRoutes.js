@@ -26,18 +26,6 @@
      return (
          <Routes>
               <Route path="/" element={<ProtectedRoute />}>
- 
-                  {/* <Route path="admin" element={<Navigate to={"dashboard"} />} />
-                  <Route path="staff" element={<Navigate to={"dashboard"} />} />
-                  <Route path="student" element={<Navigate to={"dashboard"} />} />
-                  <Route path="supervisor" element={<Navigate to={"dashboard"} />} />
-                 
-                  <Route path="admin/*" element={<Admin />} />
-                  <Route path="staff/*" element={<Staff />} />
-                  <Route path="student/*" element={<Student />} />
-                  <Route path="supervisor/*" element={<Supervisor />} />
- 
-                  <Route path="questions/:testId" element={<Questions />} /> */}
 
                     <Route path="student/*" element={<Student />} />
                     <Route path="faculty/*" element={<Staff />} />

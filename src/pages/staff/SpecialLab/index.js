@@ -61,6 +61,7 @@ function SpecialLab() {
                     null
                 );
                 const fetchedDetails = response.data.labDetails;
+                console.log(fetchedDetails);
                 setSpecialLabDetails({
                     SpecialLabName: fetchedDetails.specialLabName,
                     SpecialLabCode: fetchedDetails.specialLabCode,
